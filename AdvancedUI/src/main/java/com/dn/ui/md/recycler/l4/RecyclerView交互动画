@@ -1,0 +1,27 @@
+ItemTouchHelper
+
+可以实现的交互动画：
+1，Item 拖拽
+2，向左右侧滑动删除
+
+
+Values 就近原则
+
+getMovementFlags
+
+0x0011 & 0x0001 -> 0x0001  1代表是(true) , 0 代表非(false)
+
+
+
+相关案例
+
+https://blog.csdn.net/a553181867/article/details/54799391
+
+https://www.jianshu.com/p/0c1984bc9383
+https://blog.csdn.net/qqqq245425070/article/details/80587271
+https://www.jianshu.com/p/210b2aa502f2
+https://www.jianshu.com/p/d30fd8da4eac
+
+
+https://www.aliyun.com/jiaocheng/topic_4589_1.html
+

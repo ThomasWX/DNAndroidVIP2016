@@ -1,0 +1,10 @@
+RecyclerView 添加头部和底部
+
+
+ListView.addHeadView();
+ListView.addFooterView();
+
+RecyclerView没有这样的方法，需要自己解决(装饰 ，框架，让用户毫无感觉)，所以装饰RecyclerView
+
+
+

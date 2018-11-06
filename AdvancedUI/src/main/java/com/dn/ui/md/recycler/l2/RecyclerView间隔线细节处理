@@ -1,0 +1,23 @@
+绘制间隔线
+
+绘制网格线
+即 绘制一个条目的底部和右边
+
+如何把最右边的间隔线去掉？
+答：真正控制哪些地方要画哪些地方不画间隔线，可以getItemOffsets中控制
+例如：
+
+
+    @Override
+    public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+        // 获取四个方向的偏移量
+        if(最后一列) outRect.set(0, 0, 0, bottom);  /*公式： i+1%列数 =0  注意i是从零开始，所以要分子为i+1/
+
+        else if(最后一行) outRect.set(0, 0, right, 0); /*最后一行的条目数量小于列数，或者刚好能整除  公式：childCount % 列数 = 0 或 childCount % 列数 < 列数 */
+        else outRect.set(0, 0, right, bottom);
+    }
+
+
+RecyclerView的ItemDecoration 源码分析：
+
+RecyclerView 低耦合高内聚，将一些逻辑移到LayoutManager,LayoutManager是RecyclerView中的内部类
