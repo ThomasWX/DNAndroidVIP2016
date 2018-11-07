@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import com.dn.open.permission.BaseActivity;
+import com.dn.open.permission.PermissionActivity;
 import com.dn.open.permission.library.helper.PermissionHelper;
 
 import java.util.ArrayList;
@@ -89,5 +90,9 @@ public class PermissionManager {
             }
         }
 
+    }
+
+    public static boolean hasDeniedForever(Activity activity, List<String> perms) {
+        return PermissionHelper.newInstance(activity).hasDeniedForever(perms);
     }
 }

@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.dn.open.permission.PermissionCheckActivity;
+import com.dn.open.permission.MainActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class CourseListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
     public void checkRuntimePermission(View view) {
-         startActivity(new Intent(this, PermissionCheckActivity.class));
+         startActivity(new Intent(this, MainActivity.class));
     }
 
 }

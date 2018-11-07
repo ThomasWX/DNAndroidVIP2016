@@ -2,14 +2,13 @@ package com.dn.open.permission;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.dn.open.R;
 import com.dn.open.permission.library.PermissionManager;
 
-public class PermissionCheckActivity extends AppCompatActivity {
+public class MainActivity extends PermissionActivity {
 
     private static final int CAMERA_REQUEST_CODE = 11;//拍照权限请求码
     private static final int LOCATION_CONTACT__REQUEST_CODE = 22;//拍照权限请求码
