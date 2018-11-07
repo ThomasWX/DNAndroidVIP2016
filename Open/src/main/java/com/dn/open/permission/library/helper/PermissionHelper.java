@@ -1,6 +1,7 @@
 package com.dn.open.permission.library.helper;
 
 import android.app.Activity;
+import android.os.Build;
 
 /**
  * 抽象辅助类
@@ -17,7 +18,10 @@ public abstract class PermissionHelper {
     }
 
     public static PermissionHelper newInstance(Activity activity) {
-        return null;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            new LowApiPermissionHelper(activity);
+        }
+        return new ActivityPermissionHelper(activity);
     }
 
     public abstract void requestPermissions(int requestCode, String[] perms) ;

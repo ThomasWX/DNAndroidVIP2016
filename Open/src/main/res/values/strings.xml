@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Open</string>
+    <string name="activity_permission_framework">Android 9.0 Runtime Permission Framework</string>
 </resources>

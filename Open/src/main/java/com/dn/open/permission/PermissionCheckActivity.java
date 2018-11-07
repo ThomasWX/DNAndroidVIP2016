@@ -50,4 +50,7 @@ public class PermissionCheckActivity extends AppCompatActivity {
         }
     }
 
+
+
+
 }

@@ -1,1 +1,10 @@
 Runtime permission framework
+
+除了在代码中动态申请权限外，在AndroidManifest.xml中也必须声明。
+
+动态申请运行时权限一般分三步：
+1，检查有没有权限 PermissionManager.hasPermissions
+2，进行申请权限 PermissionManager.requestPermissions
+3, 处理结果
+
+
