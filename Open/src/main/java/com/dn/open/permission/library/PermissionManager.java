@@ -95,50 +95,52 @@ public class PermissionManager {
         }
 
 
-
         // 可以可可无，如果权限都通过，才执行注解方法，哪怕多个权限中一个被拒绝也不执行方法
-        if (!granted.isEmpty() && denied.isEmpty()){
-            reflectAnnotationMethod(activity,requestCode);
+        if (!granted.isEmpty() && denied.isEmpty()) {
+            reflectAnnotationMethod(activity, requestCode);
         }
 
     }
 
     /**
      * 找到指定Activity中，有Ipermission注解的，并且请求标识码参数正确的 方法
-     *
+     * <p>
      * 目的：再次调用相应的方法！
      */
     private static void reflectAnnotationMethod(Activity activity, int requestCode) {
         // 拿到类
-        Class<? extends Activity> clazz  = activity.getClass();
+        Class<? extends Activity> clazz = activity.getClass();
         // 拿到此类的所有方法
         Method[] methods = clazz.getDeclaredMethods();
         // 遍历所有方法
-        for (Method method:
-             methods) {
+        for (Method method :
+                methods) {
             // 如果方法是IPermission注解
-            if (method.isAnnotationPresent(IPermission.class)){ // 第一层校验
+            if (method.isAnnotationPresent(IPermission.class)) { // 第一层校验
                 // 获取注解
                 IPermission iPermission = method.getAnnotation(IPermission.class);
                 // 如果注解的值等于请求标识码(两次匹配，避免框架(第三方的)冲突)
-                if (iPermission.value() == requestCode){ // 第二层校验
+                if (iPermission.value() == requestCode) { // 第二层校验
                     // 严格控制方法格式和规范
                     // 方法返回必须是void（第三层校验）
                     Type returnType = method.getGenericReturnType();
-                    if (!"void".equals(returnType.toString())){
-                        throw  new RuntimeException(method.getName()+"方法返回必须是void");
+                    if (!"void".equals(returnType.toString())) {
+                        throw new RuntimeException(method.getName() + "方法返回必须是void");
                     }
                     // 方法参数必须无参(第四层校验)
                     Class<?>[] parameterTypes = method.getParameterTypes();
-                    if (parameterTypes.length>0){
-                        throw new RuntimeException(method.getName()+"方法必须是无参的");
+                    if (parameterTypes.length > 0) {
+                        throw new RuntimeException(method.getName() + "方法必须是无参的");
                     }
 
                     try {
+                        //注意： 如果目标方法是 private， 则强制设置其允许访问
+                        if (!method.isAccessible()) method.setAccessible(true);
                         method.invoke(activity);
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
+
 
                 }
             }
