@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.dn.open.R;
 import com.dn.open.permission.library.PermissionManager;
+import com.dn.open.permission.library.annotation.IPermission;
 
 public class MainActivity extends PermissionActivity {
 
@@ -30,7 +31,7 @@ public class MainActivity extends PermissionActivity {
         applyMultiplePermissions();
     }
 
-
+    @IPermission(CAMERA_REQUEST_CODE)
     public void applySinglePermission() {
         if (PermissionManager.hasPermissions(this,Manifest.permission.CAMERA)) {//授权通过
             Toast.makeText(this, "授权通过", Toast.LENGTH_SHORT).show();
@@ -40,6 +41,7 @@ public class MainActivity extends PermissionActivity {
 
     }
 
+    @IPermission(LOCATION_CONTACT__REQUEST_CODE)
     public void applyMultiplePermissions() {
         String[] requestPermissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_CONTACTS};
         if (PermissionManager.hasPermissions(this,requestPermissions)) {//授权通过

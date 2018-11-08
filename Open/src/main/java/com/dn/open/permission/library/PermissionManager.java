@@ -90,6 +90,20 @@ public class PermissionManager {
             }
         }
 
+
+
+        // 可以可可无，如果权限都通过，才执行注解方法，哪怕多个权限中一个被拒绝也不执行方法
+        if (!granted.isEmpty() && denied.isEmpty()){
+            reflectAnnotationMethod(activity,requestCode);
+        }
+
+    }
+
+    /**
+     * 找到指定Activity中，有Ipermission注解的，并且请求标识码参数正确的 方法
+     */
+    private static void reflectAnnotationMethod(Activity activity, int requestCode) {
+
     }
 
     public static boolean hasDeniedForever(Activity activity, List<String> perms) {
