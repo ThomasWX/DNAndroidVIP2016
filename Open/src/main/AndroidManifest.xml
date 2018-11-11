@@ -24,6 +24,9 @@
             android:name=".permission.MainActivity"
             android:label="@string/activity_permission_framework"
             android:screenOrientation="portrait" />
+        <activity android:name=".animation.water.WaterRippleAnimationActivity"
+            android:label="@string/activity_water_ripple_animation"
+            />
     </application>
 
 </manifest>
