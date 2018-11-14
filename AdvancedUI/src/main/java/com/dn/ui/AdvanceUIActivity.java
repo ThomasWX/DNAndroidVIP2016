@@ -1,9 +1,8 @@
 package com.dn.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
 import android.util.SparseIntArray;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dn.ui.md.recycler.RecyclerViewActivity;
+import com.dn.ui.md.recycler.call.CallLogDetailActivity;
 
 public class AdvanceUIActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -21,16 +21,6 @@ public class AdvanceUIActivity extends AppCompatActivity implements AdapterView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, RecyclerViewActivity.class);
-
-        Context context =  getApplicationContext();
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-//        intent.putExtra("ss",(Serializable) mMaps);
-        context.startActivity(intent);
-        // finish();
-
     }
 
     private void test() {
@@ -41,6 +31,16 @@ public class AdvanceUIActivity extends AppCompatActivity implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    public void jumpDNCourse(View view) {
+        Intent intent = new Intent(this, RecyclerViewActivity.class);
+        startActivity(intent);
+    }
+
+    public void jumpNubia(View view) {
+        Intent intent = new Intent(this, CallLogDetailActivity.class);
+        startActivity(intent);
     }
 
     /*数组相关知识点*/
