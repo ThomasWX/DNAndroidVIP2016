@@ -19,16 +19,19 @@ import com.dn.ui.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class CallLogDetailAdapter extends RecyclerView.Adapter<CallLogDetailAdapter.ViewHolder>  {
+public class CallLogDetailAdapter extends RecyclerView.Adapter<CallLogDetailAdapter.ViewHolder> implements CallLogQueryHandler.Listener {
     private static final String TAG = "CallLogDetailAdapter";
     private Cursor mCursor;
-    private ArrayList<CallLog> mCallLogs ;
+    private List<CallLog> mCallLogs ;
     private SimpleDateFormat format = new SimpleDateFormat("MM月 dd日 HH:mm");
-
+    private final CallLogQueryHandler queryHandler;
 
     public CallLogDetailAdapter(Context context, String number) {
         mCallLogs = new ArrayList<>();
+        queryHandler = new CallLogQueryHandler(context.getContentResolver(), this);
+        queryHandler.queryCallLogs(number);
     }
 
     @Override
@@ -81,22 +84,37 @@ public class CallLogDetailAdapter extends RecyclerView.Adapter<CallLogDetailAdap
 
     @Override
     public int getItemCount() {
+        Log.d(TAG,"[getItemCount]"+mCallLogs.size());
 //        return mCursor == null ? 0 : mCursor.getCount();
         return mCallLogs == null ? 0 : mCallLogs.size();
     }
 
+    @Override
+    public void onQueryComplete(int token, Object cookie, Cursor cursor) {
+        if (cursor == null) return;
+        if (token == CallLogQueryHandler.QUERY_CALL_LOG_TOKEN) {
+            /*
+            if (cursor == mCursor) return;
+            if (mCursor != null) {
+                mCursor.close();
+            }
+            mCursor = cursor;
+            if (mCursor != null) notifyDataSetChanged();
+            */
+            parse(cursor);
+        }
+    }
 
-
-    public void parse(Cursor cursor) {
+    private void parse(Cursor cursor) {
 
 //        if (mCallLogs == null){
 //            mCallLogs = new ArrayList<>();
 //        } else {
 //            mCallLogs.clear();
 //        }
-        mCallLogs.clear();
 
-        printHashCode();
+
+
 
         CallLog call;
         while (cursor.moveToNext()) {
@@ -104,6 +122,11 @@ public class CallLogDetailAdapter extends RecyclerView.Adapter<CallLogDetailAdap
                     cursor.getLong(CallLogQuery.DURATION), cursor.getInt(CallLogQuery.TYPE));
             mCallLogs.add(call);
         }
+
+        printHashCode();
+
+        Log.d(TAG,"hasObservers:"+hasObservers());
+        notifyDataSetChanged();
 
 
         printHashCode();
@@ -113,7 +136,7 @@ public class CallLogDetailAdapter extends RecyclerView.Adapter<CallLogDetailAdap
     }
 
     public void printHashCode() {
-        Log.d(TAG, "[printHashCode] " + mCallLogs.hashCode());
+        Log.d(TAG, "[printHashCode] " + System.identityHashCode(mCallLogs));
     }
 
 
@@ -162,10 +185,5 @@ public class CallLogDetailAdapter extends RecyclerView.Adapter<CallLogDetailAdap
             this.duration = duration;
             this.type = type;
         }
-    }
-
-    void test(){
-        mCallLogs.clear();
-        notifyDataSetChanged();
     }
 }
