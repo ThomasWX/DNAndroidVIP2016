@@ -13,15 +13,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dn.ui.R;
+import com.dn.ui.md.recycler.call.list.CallLogListAdapter;
 import com.dn.ui.md.recycler.l3.WrapRecyclerView;
 
 public class CallLogDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int CALL_LOG_PERMISSION_CODE = 1010;
     private WrapRecyclerView mRecyclerView;
+    private ListView mListView;
     private CallLogDetailAdapter adapter;
 
 
@@ -32,25 +35,44 @@ public class CallLogDetailActivity extends AppCompatActivity implements View.OnC
 
         checkPerms(Manifest.permission.READ_CALL_LOG);
 
+
         mRecyclerView = findViewById(R.id.call_log_detail_recycler_view);
+        mRecyclerView.setVisibility(View.GONE);
+        mListView = findViewById(R.id.list);
+        mListView.setVisibility(View.GONE);
+
+        String number = "13479790065";
+
+//        useRecyclerView(number);
+        useListView(number);
+    }
+
+    void useListView(String number){
+        mListView.setVisibility(View.VISIBLE);
+        CallLogListAdapter adapter = new CallLogListAdapter(this,number);
+        mListView.setAdapter(adapter);
+    }
+
+    void useRecyclerView(String number){
+        mRecyclerView.setVisibility(View.VISIBLE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // 注意：inflate时必须将ViewGroup root -> mRecyclerView 设置上去，不然header/footer会不居中显示。
         View header = LayoutInflater.from(this).inflate(R.layout.call_log_detail_header, mRecyclerView, false);
         View footer = LayoutInflater.from(this).inflate(R.layout.call_log_detail_footer, mRecyclerView, false);
+        initFooterAndHeader(header,footer);
         mRecyclerView.addHeaderView(header);
         mRecyclerView.addFooterView(footer);
+        adapter = new CallLogDetailAdapter(this, number);
+        mRecyclerView.setAdapter(adapter);
+    }
 
-        String number = "13479790065";
+    void initFooterAndHeader(View header,View footer){
         String name = "凯莎迷";
         TextView tvName = header.findViewById(R.id.call_log_name);
         tvName.setText(name);
         ImageButton dial = footer.findViewById(R.id.imageButton_dial);
         dial.setOnClickListener(this);
-        adapter = new CallLogDetailAdapter(this, number);
-        mRecyclerView.setAdapter(adapter);
-        adapter.printHashCode();
-        Log.d("CallLogDetailAdapter","-TheadID:"+Thread.currentThread());
     }
 
     private void checkPerms(String... permissions) {
